@@ -11,7 +11,7 @@ It currently works with a cut-down type system which supports various primitive 
 Examples
 --------
 
-An example of a function written by the package is one which attempts to create the mapping from "Firstname Lastname" to "Lastname, F."; this comes from the NamingSolver class in the example directory and happens to be pretty optimal. This has been formatted and annotated for clarity.
+An example of a function written by the package is one which attempts to create the mapping from "Firstname Lastname" to "Lastname, F."; this comes from the `NamingSolver` class in the `example` package and happens to be pretty optimal. The resultant code has been formatted and annotated for clarity.
 
 ```
 # Join together the last pair of strings, "Lastname, " and "F.",
