@@ -1,17 +1,15 @@
 # genecode
 
 Overview
-========
-
+--------
 The genecode package is a genetic algorithms implementation which aims to mimic the way biological viruses behave in the real world.
 
 It requires Java8 and `ant` to build but, aside from that, should not need anything special. See the JavaDoc, and the `example` package, for more information.
 
 It currently works with a cut-down type system which supports various primitive Java types within a basic functional programming language.
 
-
 Examples
-========
+--------
 
 An example of a function written by the package is one which attempts to create the mapping from "Firstname Lastname" to "Lastname, F."; this comes from the NamingSolver class in the example directory and happens to be pretty optimal. This has been formatted and annotated for clarity.
 
@@ -48,7 +46,7 @@ StringConcat(
 
 The above solution took about 20hrs and 474,300 iterations (producing nearly 6 billion genomes) on desktop computer.
 
-Here's an earlier attempt, which happened to find, and exploit, a bug in an early implementation of StringSplit(). This took about 7hrs and 162,311 iterations (producing around 2 billion gemomes):
+Here's an earlier attempt, which happened to find, and exploit, a bug in an early implementation of StringSplit(). This took about 7hrs and 162,311 iterations (producing around 2 billion genomes):
 
 ```
 # Concatenate all the string array elements into a string
