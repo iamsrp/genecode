@@ -1,0 +1,88 @@
+<project name="genecode" basedir="." default="compile">
+
+    <property name="root.dir"        location=".."/>
+    <property name="src.dir"         location="."/>
+    <property name="build.dir"       location="${root.dir}/java"/>
+    <property name="classes.dir"     location="${build.dir}/classes"/>
+    <property name="jar.dir"         location="${build.dir}/jar"/>
+    <property name="docs.dir"        location="${build.dir}/doc" />
+    <property name="test.report.dir" location="${build.dir}/testreports" />
+
+    <!-- Classpath for external stuff -->
+    <path id="class.path">
+      <pathelement location="/usr/share/java/junit.jar" />
+      <pathelement location="/usr/share/ant/lib/junit.jar" />
+    </path>
+
+    <!-- Make clean -->
+    <target name="clean">
+        <delete dir="${classes.dir}"/>
+        <delete dir="${test.report.dir}"/>
+    </target>
+
+    <!-- Dependency checking for "compile" -->
+    <depend srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            closure="true"/>
+
+    <!-- Make classes -->
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac includeAntRuntime="false"
+               listfiles="false"
+               srcdir="${src.dir}"
+               destdir="${classes.dir}"
+               debug="on"
+               classpathref="class.path">
+          <compilerarg value="-Xlint:deprecation"/>
+          <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+    </target>
+
+    <!-- Make JAR -->
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+        </jar>
+    </target>
+
+    <!-- Run unit tests -->
+    <target name="test" depends="compile">
+      <mkdir dir="${test.report.dir}"/>
+      <junit printsummary="on"
+             fork="true"
+             haltonfailure="true"
+             logfailedtests="true">
+        <classpath refid="class.path" />
+        <classpath>
+          <pathelement location="${classes.dir}"/>
+        </classpath>
+        <formatter type="plain" />
+        <batchtest todir="${test.report.dir}">
+          <fileset dir=".">
+            <include name="**/*Test*.java" />
+          </fileset>
+        </batchtest>
+        <syspropertyset>
+          <propertyref builtin="all"></propertyref>
+        </syspropertyset>
+      </junit>
+    </target>
+
+    <!-- Build the JavaDoc -->
+    <target name="javadoc">
+      <mkdir dir="${docs.dir}"/>
+      <javadoc packagenames="genecode.*"
+               sourcepath="${src.dir}"
+               destdir="${docs.dir}"
+               classpathref="class.path"
+               author="true"
+               version="true"
+               use="true"
+               windowtitle="genecode API"
+               doctitle="&lt;h1&gt;genecode API&lt;/h1&gt;">
+        <link href="https://docs.oracle.com/javase/8/docs/api/" />
+      </javadoc>
+    </target>
+
+</project>
