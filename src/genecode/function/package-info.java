@@ -12,9 +12,11 @@
  * is a new array instance with that value removed; the original array
  * is untouched.</p>
  *
- * <p>Functions are mildy strict about the types which they can
- * accept. By keeping types correct the search-space over which the
- * genome may roam is limited to what is a legal program.</p>
+ * <p>Functions are overly strict about the types which they can
+ * accept; there is no notion of sub-types, so a function which takes
+ * two {@code double}s will not take two {@code int}s instead. By
+ * keeping types correct the search-space over which the genome may
+ * roam is limited to what is a legal program.</p>
  *
  * <p>Right now only primitive types are available within the
  * system. There are no complex types and no containers, aside from

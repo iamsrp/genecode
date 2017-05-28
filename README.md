@@ -13,6 +13,8 @@ It currently works with a cut-down type system which supports various primitive 
 Examples
 ========
 
+The package supports a small number of primitive types (boolean, number, strings and arrays). On the numerical front, ot can solve quadractics and quartics reasonably well. As an example, though, here's something which solves a string-to-string mapping.
+
 An example of a function written by the package is one which attempts to create the mapping from "Firstname Lastname" to "Lastname, F."; this comes from the NamingSolver class in the example directory and happens to be pretty optimal. This has been formatted and annotated for clarity.
 
 ```
