@@ -2,12 +2,23 @@ package genecode;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Handy String functions.
  */
 public class StringUtil
 {
+    /**
+     * Our cache of distances.
+     */
+    private static final ThreadLocal<Map<String,Map<String,Double>>> ourDistanceCache =
+        new ThreadLocal<Map<String,Map<String,Double>>>() {
+            @Override protected Map<String,Map<String,Double>> initialValue() {
+                return new WeakHashMap<>();
+            }        
+        };
+
     /**
      * The distance between two strings, using a reasonable algori]thm.
      *
@@ -18,7 +29,9 @@ public class StringUtil
      */
     public static double distance(final String s, final String t)
     {
-        return levenshteinDistance(s, t);
+        return ourDistanceCache.get()
+                               .computeIfAbsent(s, k -> new WeakHashMap<>())
+                               .computeIfAbsent(t, k -> levenshteinDistance(s, t));
     }
 
     /**
