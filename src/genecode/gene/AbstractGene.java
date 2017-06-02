@@ -36,7 +36,7 @@ public abstract class AbstractGene
      */
     private boolean myIsEvaluating;
 
-    // Used the cache the result for the last evaluatation
+    // Used the cache the result for the last evaluation
     private long   myCachedContextId;
     private long   myCachedGenomeId;
     private Object myCachedValue;
