@@ -1,8 +1,10 @@
 # genecode
 
+Genetic algorithms are not dead, they're just resting...
+
 Overview
 --------
-The genecode package is a genetic algorithms implementation which aims to mimic the way biological viruses behave in the real world.
+The genecode package is a genetic algorithms implementation which aims to mimic the way biological viruses behave in the real world. It uses a different set of underlying principles from "classic" genetic algorithms but the overall idea is roughly the same.
 
 It requires Java8 and `ant` to build but, aside from that, should not need anything special. See the JavaDoc, and the `example` package, for more information.
 
@@ -64,7 +66,7 @@ Reduce[StringConcat](
                 Reverse(
                     StringSplit(Accessor["name"]," ")
                 ),
-                # Create the singleton  array [", "]
+                # Create the singleton array [", "]
                 Map[StringConcat](
                     # A contrived way to turn a string
                     # into a singleton array of that string
