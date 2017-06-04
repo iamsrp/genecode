@@ -50,7 +50,7 @@ StringConcat(
 
 The above solution took about 20hrs and 474,300 iterations (producing nearly 6 billion genomes) on desktop computer.
 
-Here's an earlier attempt, which happened to find, and exploit, a bug in an early implementation of StringSplit(). This took about 7hrs and 162,311 iterations (producing around 2 billion genomes):
+Here's an earlier attempt. This one happened to find, and exploit, a bug in an early implementation of StringSplit(). It took about 7hrs and 162,311 iterations (producing around 2 billion genomes):
 
 ```
 # Concatenate all the string array elements into a string
