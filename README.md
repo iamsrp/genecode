@@ -28,6 +28,7 @@ StringConcat(
             GetAt(
                 StringSplit(
                     Accessor[String:"name"],
+                    " "
                 ),
                 -1
             ),
