@@ -338,7 +338,7 @@ public class Solver
                     final Variable variable = myVariables.get(i);
                     myValues[i] = variable.get(myVariableIndices[i]);
 
-                    // Accumilate into the ID
+                    // Accumulate into the ID
                     myId *= variable.count();
                     myId += myVariableIndices[i];
 

@@ -1,8 +1,10 @@
 # genecode
 
+Genetic algorithms are not dead, they're just resting...
+
 Overview
 --------
-The genecode package is a genetic algorithms implementation which aims to mimic the way biological viruses behave in the real world.
+The genecode package is a genetic algorithms implementation which aims to mimic the way biological viruses behave in the real world. It uses a different set of underlying principles from "classic" genetic algorithms but the overall idea is roughly the same.
 
 It requires Java8 and `ant` to build but, aside from that, should not need anything special. See the JavaDoc, and the `example` package, for more information.
 
@@ -26,6 +28,7 @@ StringConcat(
             GetAt(
                 StringSplit(
                     Accessor[String:"name"],
+                    " "
                 ),
                 -1
             ),
@@ -48,7 +51,7 @@ StringConcat(
 
 The above solution took about 20hrs and 474,300 iterations (producing nearly 6 billion genomes) on desktop computer.
 
-Here's an earlier attempt, which happened to find, and exploit, a bug in an early implementation of StringSplit(). This took about 7hrs and 162,311 iterations (producing around 2 billion genomes):
+Here's an earlier attempt. This one happened to find, and exploit, a bug in an early implementation of StringSplit(). It took about 7hrs and 162,311 iterations (producing around 2 billion genomes):
 
 ```
 # Concatenate all the string array elements into a string
@@ -64,7 +67,7 @@ Reduce[StringConcat](
                 Reverse(
                     StringSplit(Accessor["name"]," ")
                 ),
-                # Create the singleton  array [", "]
+                # Create the singleton array [", "]
                 Map[StringConcat](
                     # A contrived way to turn a string
                     # into a singleton array of that string

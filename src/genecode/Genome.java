@@ -210,7 +210,7 @@ public class Genome
         // Init all the genes now
         myGenes.values().forEach(gene -> gene.init(this));
 
-        // And create the evaluators
+        // And set up the outputs
         myOutputTypes =
             Collections.unmodifiableList(new ArrayList<>(outputTypes));
         myOutputs = new Gene.Handle[outputTypes.size()];
