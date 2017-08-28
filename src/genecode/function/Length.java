@@ -15,7 +15,7 @@ public class Length
     /**
      * CTOR.
      *
-     * @param argType The array type we take.
+     * @param argType The array or String type we take.
      */
     public Length(final Class<?> argType)
     {
