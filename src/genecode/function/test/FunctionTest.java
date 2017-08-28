@@ -135,6 +135,19 @@ public class FunctionTest
                 }
             }
         }
+
+        // Test replacing
+        final Replace replace = new Replace(String.class);
+        /*scope*/ {
+            final String str = "Hello World";
+            assertEquals("Hello World", replace.call(str, "l",  "k",   0));
+            assertEquals("Heklo World", replace.call(str, "l",  "k",   1));
+            assertEquals("Hekko World", replace.call(str, "l",  "k",   2));
+            assertEquals("Hekko Workd", replace.call(str, "l",  "k",  10));
+            assertEquals("Hesho World", replace.call(str, "ll", "sh", 10));
+            assertEquals("ello World",  replace.call(str, "H",  "",   10));
+            assertEquals("Hello Worl",  replace.call(str, "d",  "",   10));
+        }
     }
 
     /**
@@ -229,5 +242,45 @@ public class FunctionTest
                 assertEquals(ints[j % i], joint[j]);
             }
         }
+
+        /*scope*/ {
+            final Replace replace = new Replace(new Integer[0].getClass());
+            final Integer[] ints = new Integer[10];
+            for (int j=0; j < ints.length; j++) {
+                ints[j] = Integer.valueOf(j / 2);
+            }
+
+            final Integer[] none = (Integer[])replace.call(ints,
+                                                           Integer.valueOf(2),
+                                                           Integer.valueOf(100),
+                                                           Integer.valueOf(0));
+            final Integer[] one = (Integer[])replace.call(ints,
+                                                          Integer.valueOf(2),
+                                                          Integer.valueOf(100),
+                                                          Integer.valueOf(1));
+            final Integer[] all = (Integer[])replace.call(ints,
+                                                          Integer.valueOf(2),
+                                                          Integer.valueOf(100),
+                                                          Integer.valueOf(10));
+            assertEquals(ints.length, none.length);
+            assertEquals(ints.length, one .length);
+            assertEquals(ints.length, all .length);
+            for (int j=0; j < ints.length; j++) {
+                assertEquals(ints[j], none[j]);
+                if (j == 4) {
+                    assertEquals(Integer.valueOf(100), one[j]);
+                    assertEquals(Integer.valueOf(100), all[j]);
+                }
+                else if (j == 5) {
+                    assertEquals(ints[j],              one[j]);
+                    assertEquals(Integer.valueOf(100), all[j]);
+                }
+                else {
+                    assertEquals(ints[j], one[j]);
+                    assertEquals(ints[j], all[j]);
+                }
+            }
+        }
+        
     }
 }
