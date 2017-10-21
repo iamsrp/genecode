@@ -132,7 +132,12 @@ public class StringSolver
 
             // Print out the results of the current top one
             if (top != null) {
-                for (final String string : values) {
+                for (int i=0; i < values.length; i++) {
+                    if (i >= 50) {
+                        System.out.println("  ...");
+                        break;
+                    }
+                    final String string = values[i];
                     final Context context =
                         new Context() {
                             @Override
