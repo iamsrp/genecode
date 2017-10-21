@@ -433,7 +433,7 @@ public class Genome
             final Gene gene = myGenes.get(myOutputs[i]);
             final String output;
             if (gene == null) {
-                output = "NaN";
+                output = "null";
             }
             else {
                 output = gene.toString(this);
@@ -539,7 +539,7 @@ public class Genome
     /**
      * Mutate the genome.
      */
-    /*package*/ void mutate()
+    public void mutate()
     {
         // First, mutate the mutation factor
         myMutationFactor =

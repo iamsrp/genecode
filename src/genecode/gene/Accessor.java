@@ -36,6 +36,17 @@ public class Accessor<T>
     }
 
     /**
+     * CTOR.
+     *
+     * @param identifier The identifier to get the value for.
+     * @param returnType The type of the accessed value.
+     */
+    public Accessor(final Identifier<T> identifier)
+    {
+        this(identifier, identifier.getValueType());
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -47,6 +47,14 @@ public abstract class Context
         }
 
         /**
+         * Get the type of the value for this identifier.
+         */
+        public Class<T> getValueType()
+        {
+            return myValueType;
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override
