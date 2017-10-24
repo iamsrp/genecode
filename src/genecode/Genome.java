@@ -490,7 +490,7 @@ public class Genome
      *
      * @param that  The genome to copy from.
      */
-    /*package*/ void copyFrom(final Genome that)
+    public void copyFrom(final Genome that)
     {
         // Walk the genes in the other genome and possibly pull them
         // into ours
