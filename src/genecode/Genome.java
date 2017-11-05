@@ -135,6 +135,11 @@ public class Genome
     private List<Class<?>> myOutputTypes;
 
     /**
+     * The names of our outputs, of any.
+     */
+    private List<String> myOutputNames;
+
+    /**
      * The outputs of our genome.
      */
     private Gene.Handle[] myOutputs;
@@ -157,7 +162,7 @@ public class Genome
                   final List<Class<?>>   outputTypes,
                   final Collection<Gene> genes)
     {
-        this(factory, genes, 100, outputTypes, 0.05);
+        this(factory, genes, 100, outputTypes, null, 0.05);
     }
 
     /**
@@ -174,6 +179,7 @@ public class Genome
                   final Collection<Gene> genes,
                   final int              maxSize,
                   final List<Class<?>>   outputTypes,
+                  final List<String>     outputNames,
                   final double           maxMutationFactor)
     {
         // I am not a number! I am a-- oh wait...
@@ -213,6 +219,16 @@ public class Genome
         // And set up the outputs
         myOutputTypes =
             Collections.unmodifiableList(new ArrayList<>(outputTypes));
+        final List<String> tweakedOutputNames = new ArrayList<>();
+        for (int i=0; i < outputTypes.size(); i++) {
+            tweakedOutputNames.add(
+                (outputNames != null && i < outputNames.size())
+                    ? outputNames.get(i)
+                    : "OUTPUT[" + i + "]"
+            );
+        }
+        myOutputNames =
+            Collections.unmodifiableList(tweakedOutputNames);
         myOutputs = new Gene.Handle[outputTypes.size()];
         for (int i=0; i < myOutputs.length; i++) {
             myOutputs[i] = pickAnyHandle(myOutputTypes.get(i));
@@ -438,7 +454,7 @@ public class Genome
             else {
                 output = gene.toString(this);
             }
-            sb.append(",OUTPUT[").append(i).append("]={")
+            sb.append(',').append(myOutputNames.get(i)).append("={")
               .append(output)
               .append('}');
         }
