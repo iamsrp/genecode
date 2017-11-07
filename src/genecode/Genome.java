@@ -82,12 +82,22 @@ public class Genome
      */
     private static final AtomicLong ourNextId = new AtomicLong();
 
+    /**
+     * How we uniquely number the families.
+     */
+    private static final AtomicLong ourNextFamily = new AtomicLong();
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Our unique ID.
      */
     private long myId;
+
+    /**
+     * Our family's unique ID.
+     */
+    private long myFamily;
 
     /**
      * Our parent's ID.
@@ -183,7 +193,8 @@ public class Genome
                   final double           maxMutationFactor)
     {
         // I am not a number! I am a-- oh wait...
-        myId = ourNextId.getAndIncrement();
+        myId     = ourNextId    .getAndIncrement();
+        myFamily = ourNextFamily.getAndIncrement();
 
         // If we are newly generated then no parent and we are the
         // first generation
@@ -241,6 +252,16 @@ public class Genome
      * @return The ID.
      */
     public long getId()
+    {
+        return myId;
+    }
+
+    /**
+     * The genome family's globally unique ID.
+     *
+     * @return The family ID.
+     */
+    public long getFamily()
     {
         return myId;
     }
@@ -433,6 +454,8 @@ public class Genome
         sb.append("GENOME[").append(myId).append(']')
           .append('{');
 
+        sb.append("FAMILY=").append(myFamily);
+
         sb.append("PARENT_ID=").append(myParentId);
 
         sb.append(",GENERATION=").append(myGeneration);
@@ -473,6 +496,7 @@ public class Genome
         try {
             final Genome result = (Genome)super.clone();
             result.myId        = ourNextId.getAndIncrement();
+            // myFamily is inherited
             result.myParentId  = myId;
             result.myGeneration++;
             result.myOutputs   = result.myOutputs.clone();
