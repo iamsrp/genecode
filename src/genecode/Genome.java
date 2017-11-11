@@ -456,7 +456,7 @@ public class Genome
 
         sb.append("FAMILY=").append(myFamily);
 
-        sb.append("PARENT_ID=").append(myParentId);
+        sb.append(",PARENT_ID=").append(myParentId);
 
         sb.append(",GENERATION=").append(myGeneration);
 
