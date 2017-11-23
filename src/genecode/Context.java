@@ -47,6 +47,14 @@ public abstract class Context
         }
 
         /**
+         * Get the type of the value for this identifier.
+         */
+        public Class<T> getValueType()
+        {
+            return myValueType;
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override
@@ -86,7 +94,7 @@ public abstract class Context
     /**
      * Get the unique ID of this context. The ID of one context should
      * be different to that of another if any of the accessed values
-     * differ.
+     * differ for a particular genome.
      *
      * @return The context ID.
      */

@@ -82,12 +82,22 @@ public class Genome
      */
     private static final AtomicLong ourNextId = new AtomicLong();
 
+    /**
+     * How we uniquely number the families.
+     */
+    private static final AtomicLong ourNextFamily = new AtomicLong();
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     /**
      * Our unique ID.
      */
     private long myId;
+
+    /**
+     * Our family's unique ID.
+     */
+    private long myFamily;
 
     /**
      * Our parent's ID.
@@ -135,6 +145,11 @@ public class Genome
     private List<Class<?>> myOutputTypes;
 
     /**
+     * The names of our outputs, of any.
+     */
+    private List<String> myOutputNames;
+
+    /**
      * The outputs of our genome.
      */
     private Gene.Handle[] myOutputs;
@@ -157,7 +172,7 @@ public class Genome
                   final List<Class<?>>   outputTypes,
                   final Collection<Gene> genes)
     {
-        this(factory, genes, 100, outputTypes, 0.05);
+        this(factory, genes, 100, outputTypes, null, 0.05);
     }
 
     /**
@@ -174,10 +189,12 @@ public class Genome
                   final Collection<Gene> genes,
                   final int              maxSize,
                   final List<Class<?>>   outputTypes,
+                  final List<String>     outputNames,
                   final double           maxMutationFactor)
     {
         // I am not a number! I am a-- oh wait...
-        myId = ourNextId.getAndIncrement();
+        myId     = ourNextId    .getAndIncrement();
+        myFamily = ourNextFamily.getAndIncrement();
 
         // If we are newly generated then no parent and we are the
         // first generation
@@ -213,6 +230,16 @@ public class Genome
         // And set up the outputs
         myOutputTypes =
             Collections.unmodifiableList(new ArrayList<>(outputTypes));
+        final List<String> tweakedOutputNames = new ArrayList<>();
+        for (int i=0; i < outputTypes.size(); i++) {
+            tweakedOutputNames.add(
+                (outputNames != null && i < outputNames.size())
+                    ? outputNames.get(i)
+                    : "OUTPUT[" + i + "]"
+            );
+        }
+        myOutputNames =
+            Collections.unmodifiableList(tweakedOutputNames);
         myOutputs = new Gene.Handle[outputTypes.size()];
         for (int i=0; i < myOutputs.length; i++) {
             myOutputs[i] = pickAnyHandle(myOutputTypes.get(i));
@@ -225,6 +252,16 @@ public class Genome
      * @return The ID.
      */
     public long getId()
+    {
+        return myId;
+    }
+
+    /**
+     * The genome family's globally unique ID.
+     *
+     * @return The family ID.
+     */
+    public long getFamily()
     {
         return myId;
     }
@@ -417,7 +454,9 @@ public class Genome
         sb.append("GENOME[").append(myId).append(']')
           .append('{');
 
-        sb.append("PARENT_ID=").append(myParentId);
+        sb.append("FAMILY=").append(myFamily);
+
+        sb.append(",PARENT_ID=").append(myParentId);
 
         sb.append(",GENERATION=").append(myGeneration);
 
@@ -433,12 +472,12 @@ public class Genome
             final Gene gene = myGenes.get(myOutputs[i]);
             final String output;
             if (gene == null) {
-                output = "NaN";
+                output = "null";
             }
             else {
                 output = gene.toString(this);
             }
-            sb.append(",OUTPUT[").append(i).append("]={")
+            sb.append(',').append(myOutputNames.get(i)).append("={")
               .append(output)
               .append('}');
         }
@@ -457,6 +496,7 @@ public class Genome
         try {
             final Genome result = (Genome)super.clone();
             result.myId        = ourNextId.getAndIncrement();
+            // myFamily is inherited
             result.myParentId  = myId;
             result.myGeneration++;
             result.myOutputs   = result.myOutputs.clone();
@@ -490,7 +530,7 @@ public class Genome
      *
      * @param that  The genome to copy from.
      */
-    /*package*/ void copyFrom(final Genome that)
+    public void copyFrom(final Genome that)
     {
         // Walk the genes in the other genome and possibly pull them
         // into ours
@@ -539,7 +579,7 @@ public class Genome
     /**
      * Mutate the genome.
      */
-    /*package*/ void mutate()
+    public void mutate()
     {
         // First, mutate the mutation factor
         myMutationFactor =

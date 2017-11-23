@@ -967,6 +967,7 @@ public class Solver
                           genes,
                           myMaxGenomeSize,
                           outputTypes,
+                          null, // names
                           myMaxMutationFactor);
     }
 
