@@ -51,6 +51,17 @@ public class MemoryGene
     }
 
     /**
+     * Set the source gene. Mainly for testing.
+     */
+    public void setSource(final Genome      genome,
+                          final Gene.Handle source)
+    {
+        mySource       = source;
+        mySourceGene   = genome.get(source);
+        mySourceGenome = genome;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -59,6 +59,8 @@ public class GeneTest
     private final ConstantString myStringHello;
     private final ConstantString myStringWorld;
 
+    private final MemoryGene myMemoryGene;
+
     /**
      * CTOR.
      */
@@ -108,6 +110,8 @@ public class GeneTest
         myStringHello     = new ConstantString("Hello");
         myStringWorld     = new ConstantString("World");
 
+        myMemoryGene      = new MemoryGene(Double.class);
+
         // And create the genome
         myGenome =
             new Genome(
@@ -134,7 +138,9 @@ public class GeneTest
                     myDoubleNaN,
 
                     myStringHello,
-                    myStringWorld
+                    myStringWorld,
+
+                    myMemoryGene
                 )
             );
     }
@@ -213,6 +219,40 @@ public class GeneTest
                       myBooleanFalse.getHandle());
         assertEquals(myXor         .evaluate(myContext, myGenome),
                      myBooleanFalse.evaluate(myContext, myGenome));
+    }
+
+    /**
+     * Test memory.
+     */
+    public void testMemory()
+    {
+        // Two different context with different IDs so that we force
+        // the delay
+        final Context context0 =
+            new Context() {
+                @Override public long getId() { return 0; }
+                @Override public Object access(Identifier<?> id) { return null; }
+            };
+        final Context context1 =
+            new Context() {
+                @Override public long getId() { return 1; }
+                @Override public Object access(Identifier<?> id) { return null; }
+            };
+
+        // First should be null
+        myMemoryGene.setSource(myGenome, myDoubleTwo.getHandle());
+        assertEquals(myMemoryGene.evaluate(context0, myGenome),
+                     null);
+
+        // Now we should see the 2 from above
+        myMemoryGene.setSource(myGenome, myDoubleFive.getHandle());
+        assertEquals(myMemoryGene.evaluate(context1, myGenome),
+                     myDoubleTwo .evaluate(context0, myGenome));
+
+        // And now the five
+        myMemoryGene.setSource(myGenome, myDoubleOne.getHandle());
+        assertEquals(myMemoryGene.evaluate(context0, myGenome),
+                     myDoubleFive.evaluate(context1, myGenome));
     }
 
     /**

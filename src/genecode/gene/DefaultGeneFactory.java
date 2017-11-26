@@ -192,6 +192,11 @@ public class DefaultGeneFactory
             suppliers.add(() -> new FunctionGene(function));
         }
 
+        // And the memory genes
+        for (Class<?> klass : classes) {
+            suppliers.add(() -> new MemoryGene(klass));
+        }
+
         // And give the genes back
         return Collections.unmodifiableList(suppliers);
     }
