@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -532,19 +533,36 @@ public class Genome
      */
     public void copyFrom(final Genome that)
     {
-        // Walk the genes in the other genome and possibly pull them
-        // into ours
-        for (Map.Entry<Gene.Handle,Gene> entry : that.myGenes.entrySet()) {
+        // The set of gene handles which we will copy
+        final Set<Gene.Handle> handles = new HashSet<>();
+
+        // Possibly pull in the full output trees from the other genome
+        for (int i=0; i < that.numOutputs(); i++) {
             // Choose whether we want to take this gene
-            if (Math.random() > myMutationFactor) {
-                // Do nothing for this gene
+            if (Math.random() < myMutationFactor) {
+                final List<Gene.Handle> list = new ArrayList<>();
+                getGraphHandles(that.myOutputs[i], list);
+                handles.addAll(list);
+            }
+        }
+
+        // Now walk the genes in the other genome and possibly pull
+        // them into ours
+        for (Gene.Handle handle : that.myGenes.keySet()) {
+            // Choose whether we want to take this gene
+            if (Math.random() < myMutationFactor) {
+                handles.add(handle);
+            }
+        }
+
+        // Now walk the resultant set and pull them over
+        for (Gene.Handle handle : handles) {
+            final Gene gene = that.get(handle);
+
+            // Ignore missing genes
+            if (gene == null) {
                 continue;
             }
-
-            // We're going to take this gene. We need to get a copy
-            // since we must never share instances between genomes.
-            final Gene.Handle handle = entry.getKey();
-            final Gene        gene   = entry.getValue().clone();
 
             // If we already have this gene then we replace our
             // existing copy
